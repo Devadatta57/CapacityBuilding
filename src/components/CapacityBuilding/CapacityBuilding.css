@@ -1,0 +1,373 @@
+/*
+ * Capacity building hero section.
+ * On desktop the section keeps fixed 1692 × 840 proportions (the top 840
+ * rows of the 1692 × 930 artwork), ending a short gap below the cards.
+ * hero-decor.webp holds the white text panel and leaves, with a
+ * transparent window behind a straight slanted edge that capacitybuilding.webp
+ * shows through. Every element is placed in reference pixels multiplied by
+ * --u, so the composition scales as one.
+ */
+.cb-hero {
+  --u: calc(100cqw / 1692);
+  --ink: #071a14;
+  --text: #202327;
+  --highlight: #10361c;
+
+  container-type: inline-size;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 1692 / 840;
+  color: var(--text);
+  background: #fbfcf8;
+}
+
+/* ---------- Background artwork ---------- */
+
+.cb-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* matches the panel colour of hero-decor.webp */
+  background: #fcfcf3;
+}
+
+/* Sized so the whole photo, every circle included, fits between the slanted
+   edge and the right edge with the trainer clear of the edge; the bottom
+   fades into the panel colour above the cards. Tune height when the photo
+   is replaced. */
+.cb-hero__photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  max-width: none;
+  height: calc(666 * var(--u));
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+}
+
+/* the artwork is 1692 × 930; the section shows its top 840 rows */
+.cb-hero__decor {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ---------- Heading and copy ---------- */
+
+/* Centred in the panel area between the top edge and row 630, so the
+   heading and copy always end above the bottom-left leaves (row 640) and
+   the cards (row 670). Sized for a three-line heading and two paragraphs;
+   recheck that the copy still fits when the text grows. Its left edge
+   matches the cards, so accent, heading, copy and cards line up. */
+.cb-hero__content {
+  position: absolute;
+  top: calc(80 * var(--u));
+  bottom: calc(210 * var(--u));
+  left: calc(66 * var(--u));
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.cb-hero__accent {
+  display: block;
+  width: calc(203 * var(--u));
+  height: max(2px, calc(3.4 * var(--u)));
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #e6862a 0%,
+    #e98a2f 20%,
+    rgba(238, 146, 54, 0.45) 50%,
+    rgba(242, 160, 72, 0.17) 80%,
+    rgba(245, 170, 90, 0) 100%
+  );
+}
+
+/* max-width keeps the break after "for", so the heading is three lines in
+   both Segoe UI and Noto Sans and stays clear of the slanted edge */
+.cb-hero__title {
+  max-width: calc(560 * var(--u));
+  margin-top: calc(28 * var(--u));
+  font-size: calc(56 * var(--u));
+  font-weight: 700;
+  line-height: calc(58 * var(--u));
+  letter-spacing: -0.045em;
+  color: var(--ink);
+}
+
+.cb-hero__copy {
+  max-width: calc(600 * var(--u));
+  margin-top: calc(32 * var(--u));
+  font-size: calc(22 * var(--u));
+  line-height: calc(29 * var(--u));
+}
+
+.cb-hero__copy p + p {
+  margin-top: calc(22 * var(--u));
+}
+
+.cb-hero__copy strong {
+  font-weight: 700;
+  color: var(--highlight);
+}
+
+/* ---------- Feature cards ---------- */
+
+/* left edge stays at 66 so card 1 covers the cut end of the bottom-left leaf
+   in the artwork */
+.cb-hero__cards {
+  position: absolute;
+  top: calc(670 * var(--u));
+  left: calc(66 * var(--u));
+  right: calc(66 * var(--u));
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: calc(28 * var(--u));
+  height: calc(112 * var(--u));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cb-card {
+  --glow: transparent;
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: calc(10 * var(--u));
+  background:
+    radial-gradient(
+      ellipse 40% 80% at 8% 60%,
+      var(--glow) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    #ffffff;
+  box-shadow:
+    0 calc(12 * var(--u)) calc(28 * var(--u)) calc(-14 * var(--u))
+      rgba(20, 40, 20, 0.28),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.cb-card--warm {
+  --glow: rgba(250, 238, 190, 0.8);
+}
+
+.cb-card--green {
+  --glow: rgba(214, 245, 214, 0.9);
+}
+
+.cb-card--blue {
+  --glow: rgba(214, 233, 252, 0.95);
+}
+
+.cb-card--pink {
+  --glow: rgba(252, 222, 232, 0.9);
+}
+
+.cb-card__body {
+  padding: 0 calc(84 * var(--u)) 0 calc(34 * var(--u));
+}
+
+.cb-card__title {
+  color: #1d2025;
+  font-size: calc(16.5 * var(--u));
+  font-weight: 700;
+  line-height: calc(21 * var(--u));
+}
+
+.cb-card__text {
+  margin-top: calc(3.5 * var(--u));
+  color: #62656a;
+  font-size: calc(15 * var(--u));
+  line-height: calc(19.5 * var(--u));
+  white-space: pre-line;
+}
+
+.cb-card__icon {
+  position: absolute;
+  top: 50%;
+  right: calc(26 * var(--u));
+  width: calc(44 * var(--u));
+  height: calc(44 * var(--u));
+  color: #142820;
+  transform: translateY(-50%);
+}
+
+.cb-card__icon svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---------- Tablet: stack text, photo and cards ---------- */
+
+@media (max-width: 1199px) {
+  .cb-hero {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(
+        ellipse 70% 40% at 20% 10%,
+        #ffffff 0%,
+        rgba(255, 255, 255, 0) 72%
+      ),
+      #fbfcf8;
+  }
+
+  .cb-hero__content {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    display: block;
+    max-width: 760px;
+    padding: 72px 32px 0;
+  }
+
+  .cb-hero__accent {
+    width: 160px;
+    height: 3px;
+  }
+
+  .cb-hero__title {
+    max-width: 520px;
+    margin-top: 28px;
+    font-size: 54px;
+    line-height: 1.04;
+  }
+
+  .cb-hero__copy {
+    max-width: 590px;
+    margin-top: 32px;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  .cb-hero__copy p + p {
+    margin-top: 24px;
+  }
+
+  /* the whole photo, uncropped and unfaded, so every circle stays visible */
+  .cb-hero__media {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 1605 / 980;
+    margin: 36px 32px 0;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px -16px rgba(20, 40, 20, 0.35);
+  }
+
+  .cb-hero__photo {
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .cb-hero__decor {
+    display: none;
+  }
+
+  .cb-hero__cards {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    height: auto;
+    margin-top: 24px;
+    padding: 0 32px 48px;
+  }
+
+  .cb-card {
+    min-height: 112px;
+    border-radius: 10px;
+    box-shadow:
+      0 12px 28px -14px rgba(20, 40, 20, 0.28),
+      0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .cb-card__body {
+    padding: 22px 84px 22px 26px;
+  }
+
+  .cb-card__title {
+    font-size: 17px;
+    line-height: 1.3;
+  }
+
+  .cb-card__text {
+    margin-top: 4px;
+    font-size: 14.5px;
+    line-height: 1.38;
+    white-space: normal;
+  }
+
+  .cb-card__icon {
+    right: 24px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ---------- Mobile: single column ---------- */
+
+@media (max-width: 640px) {
+  .cb-hero__content {
+    padding: 56px 16px 0;
+  }
+
+  .cb-hero__title {
+    max-width: 14ch;
+    font-size: clamp(32px, 9vw, 42px);
+  }
+
+  .cb-hero__copy {
+    font-size: 16px;
+  }
+
+  .cb-hero__media {
+    margin: 28px 16px 0;
+    border-radius: 10px;
+  }
+
+  .cb-hero__cards {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 20px;
+    padding: 0 16px 36px;
+  }
+
+  .cb-card {
+    min-height: 100px;
+  }
+
+  .cb-card__body {
+    padding: 20px 72px 20px 22px;
+  }
+
+  .cb-card__text {
+    font-size: 14px;
+  }
+
+  .cb-card__icon {
+    right: 20px;
+    width: 38px;
+    height: 38px;
+  }
+}
